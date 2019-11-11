@@ -10,7 +10,7 @@ const Navbar = () => (
         height={70} 
         color="midnight" 
         padding={1} 
-        shape="roundBottom"
+        shape="roundedBottom"
     >
 
         {/* Sign In Link*/}
