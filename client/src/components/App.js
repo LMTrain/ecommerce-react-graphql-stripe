@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 //prettier ignore
-import {Container, Box, Heading, Card, Image, Text, SearchField, Icon} from 'gestalt';
+import {Container, Box, Heading, Card, Image, Text, SearchField, Icon, Spinner} from 'gestalt';
+import {Link} from 'react-router-dom';
+import Loader from './Loader';
 import './App.css';
 import Strapi from 'strapi-sdk-javascript/build/main';
-import {Link} from 'react-router-dom';
 
 const apiURL = process.env.API_URL || 'http://localhost:1337';
 const strapi = new Strapi(apiURL);
@@ -11,7 +12,8 @@ const strapi = new Strapi(apiURL);
 class App extends Component {
   state = {
     brands: [],
-    searchTerm: ''
+    searchTerm: '',
+    loadingBrands: true
   };
 
   async componentDidMount() {
@@ -32,9 +34,10 @@ class App extends Component {
         }
       });
       // console.log(response);
-      this.setState({ brands: response.data.brands });
+      this.setState({ brands: response.data.brands, loadingBrands: false });
     } catch (err) {
       console.log(err);
+      this.setState({ loadingBrands: false });
     }
   }
 
@@ -53,7 +56,7 @@ class App extends Component {
   }
 
   render() {
-    const { searchTerm } = this.state;
+    const { searchTerm, loadingBrands } = this.state;
 
     return (
       <Container>
@@ -116,16 +119,21 @@ class App extends Component {
                 justifyContent="center"
                 direction="column"
               >
-                <Text bold size="xl">{brand.name}</Text>
-                <Text>{brand.description}</Text>
-                <Text bold size="xl">
-                  <Link to={`/${brand._id}`}>See Brews</Link>
-                </Text>
-              </Box>
+                  <Text bold size="xl">
+                    {brand.name}
+                  </Text>
+                  <Text>{brand.description}</Text>
+                  <Text bold size="xl">
+                    <Link to={`/${brand._id}`}>See Brews</Link>
+                  </Text>
+                </Box>
               </Card>
             </Box>
           ))}
         </Box>
+        {/* <Spinner show={loadingBrands} accessibilityLabel="Loading Spinner" /> */}
+       <Loader show={loadingBrands} />
+       {/* {loadingBrands && <Loader />} */}
       </Container>
     );
   }
