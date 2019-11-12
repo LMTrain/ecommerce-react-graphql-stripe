@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 //prettier ignore
-import {Container, Box, Heading, Card, Image, Text, SearchField, Icon, Spinner} from 'gestalt';
+import {Container, Box, Heading, Card, Image, Text, SearchField, Icon} from 'gestalt';
 import {Link} from 'react-router-dom';
 import Loader from './Loader';
 import './App.css';
 import Strapi from 'strapi-sdk-javascript/build/main';
-
 const apiURL = process.env.API_URL || 'http://localhost:1337';
 const strapi = new Strapi(apiURL);
 
