@@ -56,6 +56,7 @@ class Signup extends React.Component {
 
     render() {
         const { toastMessage, toast, loading } = this.state;
+
         return (
             <Container>
                 <Box
@@ -77,8 +78,7 @@ class Signup extends React.Component {
                         textAlign: 'center',
                         maxWidth: 450
                     }}
-                    onSubmit={this.handleSubmit}
-                    
+                    onSubmit={this.handleSubmit}                    
                     >
                         {/* Sign Up Form Heading */}
                         <Box
@@ -88,7 +88,9 @@ class Signup extends React.Component {
                             alignItems='center'
                         >
                             <Heading color="midnight">Let's Get Started</Heading>
-                            <Text italic color="orchid">Sign up to order some brews!</Text>
+                            <Text italic color="orchid">
+                                Sign up to order some brews!
+                            </Text>
                         </Box>
                         {/* Username Input */}
                         <TextField
@@ -114,7 +116,13 @@ class Signup extends React.Component {
                             placeholder="Password"
                             onChange={this.handleChange}
                         />
-                        <Button inline disabled={loading} color="blue" text="Submit" type="submit" />
+                        <Button
+                            inline 
+                            disabled={loading} 
+                            color="blue" 
+                            text="Submit" 
+                            type="submit" 
+                        />
                     </form>
                 </Box>
                 <ToastMessage show={toast} message={toastMessage}/>
@@ -122,4 +130,5 @@ class Signup extends React.Component {
         );
     }
 }
+
 export default Signup;
