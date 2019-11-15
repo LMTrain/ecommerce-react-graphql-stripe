@@ -1,9 +1,14 @@
 import React from  'react'
+//prettier ignore
 import { Container, Box, Button, Heading, Text, TextField, Modal, Spinner } from 'gestalt'
 //prettier ignore
 import { Elements, StripeProvider, CardElement, injectStripe} from 'react-stripe-elements';
 import ToastMessage from './ToastMessage';
-import {getCart, calculatePrice} from '../utils';
+import {getCart, calculatePrice, clearCart, calculateAmount} from '../utils';
+import { withRouter } from 'react-router-dom';
+import Strapi from 'strapi-sdk-javascript/build/main';
+const apiURL = process.env.API_URL || 'http://localhost:1337';
+const strapi = new Strapi(apiURL);
 
 class _CheckoutForm extends React.Component {
     state = {
@@ -36,17 +41,60 @@ class _CheckoutForm extends React.Component {
         }
 
         this.setState({ modal: true });
-  };
+    };
 
-  handleSubmitOrder = () => {};
+    handleSubmitOrder = async () => {
+        const { cartItems, city, address, postalCode, confirmationEmailAddress } = this.state;
+
+        const amount = calculateAmount(cartItems);
+        //process order
+        this.setState({ orderProcessing: true });
+        let token;
+        try {
+            // create stripe token
+            const response = await this.props.stripe.createToken();
+            token = response.token.id;
+            //create order with stripe sdk (make request to backend)
+                await strapi.createEntry('orders', {
+                    amount,
+                    brews: cartItems,
+                    city,
+                    postalCode,
+                    address,
+                    token              
+                });
+                await strapi.request("POST", "/email", {
+                    data: {
+                        to: confirmationEmailAddress,
+                        subject: `Order Confirmation - BrewHaha ${new Date(Date.now())}`,
+                        text: "Your order has been processed",
+                        html: "<bold>Expect your order to arrive in 2-3 shipping days</bold>"
+                    }
+                });
+                //set orderProcessing - false, set modal - false
+                this.setState({ orderProcessing: false, modal: false });
+                // clear user cart of brews
+                clearCart();
+                // show success toast
+                this.showToast("Your order has been successfully submitted!", true);
+            } catch (err) {
+                // set order processing - false, modal - false
+                this.setState({ orderProcessing: false, modal: false });
+                // show error toast
+                this.showToast(err.message);
+        }
+    };
 
     isFormEmpty = ({address, postalCode, city, confirmationEmailAddress }) => {
         return !address || !postalCode || !city || !confirmationEmailAddress;
     };
 
-    showToast = toastMessage => {
+    showToast = (toastMessage, redirect = false) => {
         this.setState({ toast: true, toastMessage });
-        setTimeout(() => this.setState({ toast: false, toastMessage: '' }), 5000);
+        setTimeout(() => this.setState({ toast: false, toastMessage: '' },
+        // if true passed to 'redirect argument, redirect home
+            () => redirect && this.props.history.push('/')
+        ), 5000);
     };
 
     closeModal = () => this.setState({ modal: false });
@@ -114,7 +162,7 @@ class _CheckoutForm extends React.Component {
                             {/* Postal Code Address Input */}
                             <TextField
                                 id="postalCode"
-                                type="number"
+                                type="text"
                                 name="postalCode"
                                 placeholder="Postal Code"
                                 onChange={this.handleChange}
@@ -249,10 +297,10 @@ const ConfirmationModal = ({
     </Modal>
 );
 
-const CheckoutForm = injectStripe(_CheckoutForm);
+const CheckoutForm = withRouter(injectStripe(_CheckoutForm));
 
 const Checkout = () => (
-    <StripeProvider apiKey="pk_test_XH4SXYqra8iGNQqAp6RU4T9K00oxet8zny">
+    <StripeProvider apiKey="pk_test_x8yjxMCIGG0GwegNJCzILYWy00qrvPKmKA">
         <Elements>
             <CheckoutForm />
         </Elements>

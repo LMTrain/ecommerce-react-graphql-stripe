@@ -2,48 +2,48 @@
   "routes": [
     {
       "method": "GET",
-      "path": "/brews",
-      "handler": "Brew.find",
+      "path": "/orders",
+      "handler": "Orders.find",
       "config": {
         "policies": []
       }
     },
     {
       "method": "GET",
-      "path": "/brews/count",
-      "handler": "Brew.count",
+      "path": "/orders/count",
+      "handler": "Orders.count",
       "config": {
         "policies": []
       }
     },
     {
       "method": "GET",
-      "path": "/brews/:_id",
-      "handler": "Brew.findOne",
+      "path": "/orders/:_id",
+      "handler": "Orders.findOne",
       "config": {
         "policies": []
       }
     },
     {
       "method": "POST",
-      "path": "/brews",
-      "handler": "Brew.create",
+      "path": "/orders",
+      "handler": "Orders.create",
       "config": {
         "policies": []
       }
     },
     {
       "method": "PUT",
-      "path": "/brews/:_id",
-      "handler": "Brew.update",
+      "path": "/orders/:_id",
+      "handler": "Orders.update",
       "config": {
         "policies": []
       }
     },
     {
       "method": "DELETE",
-      "path": "/brews/:_id",
-      "handler": "Brew.destroy",
+      "path": "/orders/:_id",
+      "handler": "Orders.destroy",
       "config": {
         "policies": []
       }

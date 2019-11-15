@@ -1,5 +1,6 @@
 import React from 'react';
 import Strapi from 'strapi-sdk-javascript/build/main';
+// prettier ignore
 import { Box, Heading, Text, Image, Card, Button, Mask, IconButton } from 'gestalt'
 import {calculatePrice, setCart, getCart} from '../utils';
 import { Link } from 'react-router-dom';
@@ -178,9 +179,9 @@ class Brews extends React.Component {
                           )}
                         </Box>
                         <Text size="lg">Total: {calculatePrice(cartItems)}</Text>
-                        <text>
+                        <Text>
                           <Link to="/checkout">Checkout</Link>
-                        </text>
+                        </Text>
 
                       </Box>
                     </Box>
