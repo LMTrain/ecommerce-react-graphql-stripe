@@ -44,9 +44,11 @@ const AuthNav = ({ handleSignout }) => (
             src="./icons/logo.svg"
           />
         </Box>
+        <div className="main-title">
         <Heading size="xs" color="orange">
           BrewHaha
         </Heading>
+        </div>
       </Box>
     </NavLink>
 
@@ -89,9 +91,12 @@ const UnAuthNav = () => (
                         src="./icons/logo.svg"
                     />
                 </Box>
+                {/* Title */}
+                <div className="main-title">
                 <Heading size="xs" color="orange">
                     BrewHaha
                 </Heading>
+                </div>
             </Box>
         </NavLink>
 
