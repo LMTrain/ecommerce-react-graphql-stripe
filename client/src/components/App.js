@@ -85,21 +85,21 @@ class App extends Component {
       <Container>
         {/* {Brands Search Field */}
         <Box display="flex" justifyContent="center" marginTop={4}>
-        <SearchField 
-          id="searchField"
-          accessibilityLabel="Brands Search Field"
-          onChange={this.handleChange}
-          value={searchTerm}
-          placeholder="Search Brands"
-        />
-        <Box margin={3}>
-          <Icon 
-            icon="filter"
-            color={searchTerm ? 'orange' : 'gray'}
-            size={20}
-            accessibilityLabel="Filter"
+          <SearchField 
+            id="searchField"
+            accessibilityLabel="Brands Search Field"
+            onChange={this.handleChange}
+            value={searchTerm}
+            placeholder="Search Brands"
           />
-        </Box>
+          <Box margin={3}>
+            <Icon 
+              icon="filter"
+              color={searchTerm ? 'orange' : 'gray'}
+              size={20}
+              accessibilityLabel="Filter"
+            />
+          </Box>
         </Box>
         {/* Brands Section */}
         <Box display="flex" justifyContent="center" marginBottom={2}>
