@@ -32,9 +32,14 @@ class Signup extends React.Component {
         
         //Sign up user
         try {
-            this.setState({ loading: true});           
+            //set loading - true
+            this.setState({ loading: true}); 
+            // make request register user with strapi          
             const response = await strapi.register(username, email, password);
+            // set loading to false
             this.setState({ loading: false});
+            // put token (to manage user session) in local storage
+            console.log(response)
             setToken(response.jwt);            
             this.redirectUser('/');
         }catch (err) {
