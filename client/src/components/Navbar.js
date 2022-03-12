@@ -63,6 +63,7 @@ const AuthNav = ({ handleSignout }) => (
   </Box>
 ); 
 
+ {/* Nav Link for unathorize */}
 const UnAuthNav = () => (
     <Box
         display="flex" 
